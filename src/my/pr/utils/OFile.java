@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+
 
 /**
  *
@@ -66,6 +68,14 @@ public class OFile {
         PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file, true)));
         out.write(text + "\n");
         out.close();
+    }
+    
+    public String convertToString() throws UnsupportedEncodingException {
+        return convertToString("UTF-8");
+    }
+    
+    public String convertToString(String format) throws UnsupportedEncodingException {
+        return new String(data, format);
     }
 
     public File getFile(String name) throws FileNotFoundException, IOException {

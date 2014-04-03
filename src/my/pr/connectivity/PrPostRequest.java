@@ -26,7 +26,14 @@ public class PrPostRequest extends PrHttpRequest {
     public PrPostRequest(PrHttpClient client, String uri, String contentType, String entityString, String encodingType) throws UnsupportedEncodingException {
         super();
         this.client = client;
-        this.url = client.getHostUrl() + uri;
+        
+        if(uri.trim().toUpperCase().startsWith("HTTP://") || uri.trim().toUpperCase().startsWith("HTTPS://")) {
+            this.url = uri.replace(" ", "%20");
+        }
+        else {
+            this.url = client.getHostUrl() + uri.replace(" ", "%20");
+        }
+        
         this.entityString = entityString;
         this.post = new HttpPost(url);
         StringEntity entity = new StringEntity(this.entityString, encodingType);

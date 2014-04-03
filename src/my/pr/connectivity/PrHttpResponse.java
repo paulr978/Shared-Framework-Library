@@ -74,6 +74,10 @@ public class PrHttpResponse {
 
 
     }
+    
+    public byte[] getContentBytes() {
+        return bytes;
+    }
 
     public boolean isTextResponse() {
         if(getContentType() == null) return false;
@@ -208,7 +212,8 @@ public class PrHttpResponse {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         int read = 0;
-        byte[] buffer = new byte[1024];
+        //byte[] buffer = new byte[1024];
+        byte[] buffer = new byte[16384];
 
         while ((read = input.read(buffer)) != -1) {
             outputStream.write(buffer, 0, read);
