@@ -1,6 +1,8 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Program : Shared Framework Library
+ * Author: Paul Rando (paulr978@gmail.com)
+ * GIT: https://github.com/paulr978/Shared-Framework-Library
+ * 
  */
 package my.pr.utils;
 
