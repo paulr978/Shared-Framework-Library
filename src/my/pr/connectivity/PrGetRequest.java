@@ -18,6 +18,7 @@ public class PrGetRequest extends PrHttpRequest {
      
     private HttpGet get = null;
     private String entityString = null;
+    private boolean debug = true;
  
     public PrGetRequest(PrHttpClient client, String uri) {
         super();
@@ -36,7 +37,7 @@ public class PrGetRequest extends PrHttpRequest {
 
     @Override
     protected HttpResponse executeMethod(PrHttpResponse response) throws IOException {
-        System.out.println("GET Request: " + getUrl());
+        if(debug) System.out.println("GET Request: " + getUrl());
         HttpResponse httpResponse = client.execute(get);
         
         

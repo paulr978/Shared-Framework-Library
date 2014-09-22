@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.DateFormat;
@@ -43,6 +44,7 @@ public class PrHttpResponse {
     private byte[] bytes = null;
     private Exception javaErrorException = null;
     private boolean exceptionOccured = false;
+    private boolean debug = false;
     //private StringBuffer content = null;
 
     public PrHttpResponse() throws IOException {
@@ -64,7 +66,7 @@ public class PrHttpResponse {
         } else if (url.startsWith("https://")) {
             path = url.replace("https://", "");
         }
-        System.out.println("Response: " + response);
+        if(debug) System.out.println("Response: " + response);
 
         if(getHttpEntity() == null) return;
         
@@ -99,6 +101,16 @@ public class PrHttpResponse {
             return true;
         }
         return false;
+    }
+    
+    public File getFile(String fileName) throws IOException {
+        File file = new File(fileName);
+        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+        bos.write(bytes);
+        bos.flush();
+        bos.close();
+        
+        return file;
     }
 
     public void saveContentToFile(File base) throws IOException {
@@ -240,8 +252,11 @@ public class PrHttpResponse {
             System.out.println("Elapsed Time(ms): " + getElapsedTimeMilli());
 
             //System.out.println("Content Encoding: " + get.getHttpEntity().getContentEncoding().getName() + "=" + get.getHttpEntity().getContentEncoding().getValue());
-            System.out.println("Content Type: " + getContentType().getName() + "=" + getContentType().getValue());
-            System.out.println("Content Length: " + getContentLength());
+            if(getContentType() != null) {
+                System.out.println("Content Type: " + getContentType().getName() + "=" + getContentType().getValue());
+                System.out.println("Content Length: " + getContentLength());
+            }
+
 
             for (Cookie cookie : cookies) {
                 System.out.println("Cookie: " + cookie.getName() + "=" + cookie.getValue());

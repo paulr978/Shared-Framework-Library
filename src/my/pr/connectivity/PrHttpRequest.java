@@ -55,6 +55,8 @@ public abstract class PrHttpRequest {
             response.setJavaErrorException(e);
             e.printStackTrace();
             throw new IOException(e);
+        }finally {
+            method.releaseConnection();
         }
         
         

@@ -12,11 +12,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 
 /**
@@ -77,6 +79,30 @@ public class OFile {
     public String convertToString(String format) throws UnsupportedEncodingException {
         return new String(data, format);
     }
+    
+    public static ArrayList<File> getFilesRecursively(File directory, String extension) {
+        ArrayList<File> filesArray = new ArrayList<File>();
+        getFilesRecursively(filesArray, directory, extension);
+        return filesArray;
+    }
+    
+    public static void getFilesRecursively(ArrayList<File> filesArray, File directory, String extension) {
+        if(directory.isDirectory()) {
+            File[] files = directory.listFiles();
+            for(File file : files) {
+                if(file.isDirectory()) {
+                    getFilesRecursively(filesArray, file, extension);
+                }
+                else {
+                    if(file.getName().toLowerCase().endsWith(".jar")) {
+                        filesArray.add(file);
+                    }
+                }
+            }
+        }
+
+    }
+    
 
     public File getFile(String name) throws FileNotFoundException, IOException {
         File file = new File(name);
